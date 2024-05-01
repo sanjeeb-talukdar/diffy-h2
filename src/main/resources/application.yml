@@ -15,20 +15,29 @@ service:
   protocol : "http"
 
 serviceName : "Default Sample Service"
+  
 
-
+  
 spring:
+  sql:
+    init:
+      schema-locations:
+      - optional:classpath*:schema.sql
+  h2:
+    console.enabled: true
   datasource:
     url: jdbc:h2:file:./data/results.db
     username: sa
     password: password
     driverClassName: org.h2.Driver
   jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
-
-
 
 management:
   endpoints:
@@ -37,6 +46,10 @@ management:
         include: health,info,prometheus
 
 logging:
+  level:
+    org.hibernate.tool.hbm2ddl: DEBUG
+    root: DEBUG
+    sql: TRACE
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr([diffy,%X{trace_id},%X{span_id}]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m %n%wEx"
     file: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr([diffy,%X{trace_id},%X{span_id}]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m %n%wEx"
