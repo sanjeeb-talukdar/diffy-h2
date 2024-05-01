@@ -1,10 +1,6 @@
 package ai.diffy.analysis;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,15 +12,15 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "Field_Difference")
 public class FieldDifference {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 	
-	@Id
-    @Column(name = "id")
-    public String id;
-	
-	@Column(name = "field")
+	@Column(name = "field", length = 40000)
     public String field;
 	
-	@Column(name = "difference")
+	@Column(name = "difference" , length = 40000)
     public String difference;
 
     public FieldDifference(String field, String difference) {

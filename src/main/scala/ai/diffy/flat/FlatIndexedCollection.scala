@@ -36,10 +36,10 @@ case class equals(o: FlatObject) extends FlatCondition {
 
 case class matches(regex: String) extends FlatCondition {
   override def apply(other: FlatObject): Boolean =
-   other match {
-     case FlatPrimitive(str: String) => str.matches(regex)
-     case _ => false
-   }
+  other match {
+    case FlatPrimitive(str: String) => str.matches(regex)
+    case _ => false
+  }
 }
 
 //case class lt[T : { def <(o:T):Boolean }](upperBound: T) extends FlatCondition {

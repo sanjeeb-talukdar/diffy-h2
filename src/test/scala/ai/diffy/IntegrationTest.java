@@ -1,8 +1,11 @@
 package ai.diffy;
 
-import ai.diffy.interpreter.http.HttpLambdaServer;
-import ai.diffy.proxy.ReactorHttpDifferenceProxy;
-import lombok.extern.slf4j.Slf4j;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,11 +19,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.RestTemplate;
-import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import ai.diffy.interpreter.http.HttpLambdaServer;
+import ai.diffy.proxy.ReactorHttpDifferenceProxy;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
@@ -57,7 +59,7 @@ public class IntegrationTest {
     public void warmup() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        headers.set("Accept", "*/*");
         FileSystemResource payload = new FileSystemResource("src/test/resources/payload.json");
         String json = FileCopyUtils.copyToString(new InputStreamReader(payload.getInputStream()));
         String response = restTemplate.postForObject(proxyUrl, new HttpEntity<>(json, headers), String.class);
@@ -71,7 +73,7 @@ public class IntegrationTest {
         log.info("Testing request body of {} MB", json.getBytes().length/1024/1024);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-
+        headers.set("Accept", "*/*");
         String response = restTemplate.postForObject(proxyUrl, new HttpEntity<>(json, headers), String.class);
         assertEquals(json, response);
     }
@@ -84,6 +86,7 @@ public class IntegrationTest {
         log.info("Testing request header of {} MB", header.getBytes().length/1024/1024);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Accept", "*/*");
         headers.set("a", header);
 
         ResponseEntity<String> response = restTemplate.postForEntity(proxyUrl, new HttpEntity<>(json, headers), String.class);

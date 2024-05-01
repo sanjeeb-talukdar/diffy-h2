@@ -2,16 +2,7 @@ package ai.diffy.analysis;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,16 +20,16 @@ public class DifferenceResult {
     @Column(name = "id")
     public String id;
     
-    @Column(name = "trace_Id")
+    @Column(name = "trace_Id", length = 40000)
     public String traceId;
     
-    @Column(name = "endpoint")
+    @Column(name = "endpoint", length = 40000)
     public String endpoint;
     
     @Column(name = "timestamp_Msec")
     public Long timestampMsec;
     
-    @Column(name = "request")
+    @Column(name = "request", length = 40000)
     public String request;
     
     @MapsId
@@ -56,13 +47,6 @@ public class DifferenceResult {
         this.differences = differences;
         this.request = request;
         this.responses = responses;
-        
-        responses.setId(id);
-        
-        if(null != differences) {
-        	differences.stream().forEach(dif -> dif.setId(id));
-        }
-        
     }
 }
 

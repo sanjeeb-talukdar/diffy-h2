@@ -1,8 +1,13 @@
 package ai.diffy.analysis
 
-import ai.diffy.compare.{Difference, NoDifference, PrimitiveDifference}
-import ai.diffy.flat.{FlatEntry, FlatObject}
-import ai.diffy.lifter.{AnalysisRequest, JsonLifter, Message}
+import ai.diffy.compare.Difference
+import ai.diffy.compare.NoDifference
+import ai.diffy.compare.PrimitiveDifference
+import ai.diffy.flat.FlatEntry
+import ai.diffy.flat.FlatObject
+import ai.diffy.lifter.AnalysisRequest
+import ai.diffy.lifter.JsonLifter
+import ai.diffy.lifter.Message
 import ai.diffy.repository.DifferenceResultRepository
 import io.opentelemetry.api.trace.Span
 import org.slf4j.LoggerFactory
@@ -67,6 +72,7 @@ class DifferenceAnalyzer(
           differencesToJson(rawDiff).asJava,
           JsonLifter.encode(request.result),
           new Responses(
+            id,
             JsonLifter.encode(primary.result),
             JsonLifter.encode(secondary.result),
             JsonLifter.encode(candidate.result)

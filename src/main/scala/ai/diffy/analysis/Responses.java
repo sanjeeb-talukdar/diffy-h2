@@ -1,9 +1,6 @@
 package ai.diffy.analysis;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,16 +16,17 @@ public class Responses {
     @Column(name = "id")
     public String id;
 	
-	@Column(name = "'primary'")
+	@Column(name = "prime", length = 40000)
     public String primary;
 	
-	@Column(name = "'secondary'")
+	@Column(name = "sec", length = 40000)
     public String secondary;
 	
-	@Column(name = "'candidate'")
+	@Column(name = "cand", length = 40000)
     public String candidate;
 
-    public Responses(String primary, String secondary, String candidate) {
+    public Responses(String id, String primary, String secondary, String candidate) {
+        this.id = id;
         this.primary = primary;
         this.secondary = secondary;
         this.candidate = candidate; 

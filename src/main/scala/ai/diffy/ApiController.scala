@@ -1,9 +1,16 @@
 package ai.diffy
 
-import ai.diffy.analysis.{DifferencesFilterFactory, DynamicAnalyzer, JoinedEndpoint}
-import ai.diffy.repository.{DifferenceResultRepository, NoiseRepository}
+import ai.diffy.analysis.DifferencesFilterFactory
+import ai.diffy.analysis.DynamicAnalyzer
+import ai.diffy.analysis.JoinedEndpoint
+import ai.diffy.repository.DifferenceResultRepository
+import ai.diffy.repository.NoiseRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.{GetMapping, PathVariable, PostMapping, RequestParam, RestController}
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 import java.util.Date
 import scala.jdk.CollectionConverters._
@@ -48,15 +55,15 @@ class ApiController(
 
   @GetMapping(path = Array("/api/1/overview"))
   def getOverview(
-     @RequestParam(name = "exclude_noise", defaultValue = "true") excludeNoise: Boolean,
-     @RequestParam(name = "include_weights", defaultValue = "false") includeWeights: Boolean,
-     @RequestParam(name = "start", defaultValue = "0") start: Long,
-     @RequestParam(name = "end", defaultValue = "1701001001000") end: Long
- ) : Map[String, Any] = {
+    @RequestParam(name = "exclude_noise", defaultValue = "true") excludeNoise: Boolean,
+    @RequestParam(name = "include_weights", defaultValue = "false") includeWeights: Boolean,
+    @RequestParam(name = "start", defaultValue = "0") start: Long,
+    @RequestParam(name = "end", defaultValue = "1701001001000") end: Long
+  ) : Map[String, Any] = {
     proxy(start, end).joinedDifferences.endpoints match { case eps =>
       eps.map { case (endpoint, diffs) =>
         endpoint -> endpointMap(endpoint, diffs, includeWeights, excludeNoise)
-      }
+      } 
     }
   }
 
